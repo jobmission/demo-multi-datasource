@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.revengemission.demo.multidatasource.persistence.mapper2.MonthStatMapper">
+    <resultMap id="BaseResultMap" type="com.revengemission.demo.multidatasource.persistence.entity2.MonthStat">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="value" jdbcType="VARCHAR" property="value"/>
+        <result column="value_date" jdbcType="TIMESTAMP" property="valueDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, value, valueDate
+    </sql>
+    <select id="count" parameterType="java.lang.String" resultType="java.lang.Long" statementType="STATEMENT">
+        select count(*) from ${tableName}
+    </select>
+    <select id="select" parameterType="java.lang.String" resultMap="BaseResultMap"  statementType="STATEMENT">
+        select
+        <include refid="Base_Column_List" />
+        from ${tableName}
+    </select>
+</mapper>
