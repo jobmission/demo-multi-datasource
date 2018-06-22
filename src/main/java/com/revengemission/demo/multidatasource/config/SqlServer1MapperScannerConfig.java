@@ -36,7 +36,7 @@ public class SqlServer1MapperScannerConfig {
         PageInterceptor pageInterceptor = new PageInterceptor();
         Properties properties = new Properties();
         properties.setProperty("helperDialect", "sqlserver");
-        properties.setProperty("reasonable", "true");
+        properties.setProperty("reasonable", "false");
         pageInterceptor.setProperties(properties);
         Interceptor[] plugins = new Interceptor[]{pageInterceptor};
         bean.setPlugins(plugins);
