@@ -38,7 +38,7 @@ public class Mysql1MapperScannerConfig {
         PageInterceptor pageInterceptor = new PageInterceptor();
         Properties properties = new Properties();
         properties.setProperty("helperDialect", "mysql");
-        properties.setProperty("reasonable", "true");
+        properties.setProperty("reasonable", "false");
         pageInterceptor.setProperties(properties);
         Interceptor[] plugins = new Interceptor[]{pageInterceptor};
         bean.setPlugins(plugins);
