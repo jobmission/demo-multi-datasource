@@ -6,9 +6,12 @@ import java.util.Date;
 
 public class DayStat implements Serializable {
     private Long id;
+
     private Date valueDate;
+
     private BigDecimal value;
 
+    private String tim;
 
     private int version;
 
@@ -36,6 +39,14 @@ public class DayStat implements Serializable {
 
     public void setValue(BigDecimal value) {
         this.value = value;
+    }
+
+    public String getTim() {
+        return tim;
+    }
+
+    public void setTim(String tim) {
+        this.tim = tim == null ? null : tim.trim();
     }
 
     public int getVersion() {

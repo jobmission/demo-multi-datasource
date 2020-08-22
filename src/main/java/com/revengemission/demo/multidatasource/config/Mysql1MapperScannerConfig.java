@@ -1,8 +1,6 @@
 package com.revengemission.demo.multidatasource.config;
 
 
-import com.github.pagehelper.PageInterceptor;
-import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -18,35 +16,32 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
 @MapperScan(value = "com.revengemission.demo.multidatasource.persistence.mapper", sqlSessionTemplateRef = "mysql1SessionTemplate")
 public class Mysql1MapperScannerConfig {
+    /**
+     * prefix值必须是application.properteis中对应属性的前缀
+     *
+     * @return
+     */
     @Bean(name = "mysql1DataSource")
     @Primary //必须加此注解，不然报错，下一个类则不需要添加
-    @ConfigurationProperties(prefix = "first.datasource") // prefix值必须是application.properteis中对应属性的前缀
+    @ConfigurationProperties(prefix = "first.datasource")
     public DataSource mysql1DataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    public SqlSessionFactory mysql1SessionFactory(@Qualifier("mysql1DataSource") DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-        bean.setDataSource(dataSource);
-        PageInterceptor pageInterceptor = new PageInterceptor();
-        Properties properties = new Properties();
-        properties.setProperty("helperDialect", "mysql");
-        properties.setProperty("reasonable", "false");
-        pageInterceptor.setProperties(properties);
-        Interceptor[] plugins = new Interceptor[]{pageInterceptor};
-        bean.setPlugins(plugins);
+    public SqlSessionFactory mysql1SessionFactory(@Qualifier("mysql1DataSource") DataSource dataSource) {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(dataSource);
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
-            bean.setMapperLocations(resolver.getResources("classpath*:mybatis/*.xml"));
-            return bean.getObject();
+            sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:mybatis/*.xml"));
+            return sqlSessionFactoryBean.getObject();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -55,7 +50,8 @@ public class Mysql1MapperScannerConfig {
 
     @Bean
     public SqlSessionTemplate mysql1SessionTemplate(@Qualifier("mysql1SessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
-        SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory); // 使用上面配置的Factory
+        /// 使用上面配置的Factory
+        SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory);
         return template;
     }
 }

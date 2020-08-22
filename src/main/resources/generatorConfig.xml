@@ -12,17 +12,24 @@
        -->
 
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
-
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
         <!--去除注释  -->
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
 
         <!--数据库连接 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/data_visualization"
-                        userId="tcdb"
-                        password="tctc2017">
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/demo_05"
+                        userId="user_dev"
+                        password="pass_dev">
+            <property name="useSSL" value="false"/>
+            <property name="useUnicode" value="true"/>
+            <property name="characterEncoding" value="utf8"/>
+            <property name="allowPublicKeyRetrieval" value="true"/>
+            <property name="serverTimezone" value="Asia/Shanghai"/>
+            <!--    ！！解决MYSQL 8.0 ,非预期结果！！！    -->
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
         <javaTypeResolver>

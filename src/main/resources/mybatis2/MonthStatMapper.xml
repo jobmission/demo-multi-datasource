@@ -3,16 +3,16 @@
 <mapper namespace="com.revengemission.demo.multidatasource.persistence.mapper2.MonthStatMapper">
     <resultMap id="BaseResultMap" type="com.revengemission.demo.multidatasource.persistence.entity2.MonthStat">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="value" jdbcType="VARCHAR" property="value"/>
         <result column="value_date" jdbcType="TIMESTAMP" property="valueDate"/>
+        <result column="value" jdbcType="VARCHAR" property="value"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, value, valueDate
+        id, value_date, value
     </sql>
-    <select id="count" parameterType="java.lang.String" resultType="java.lang.Long" statementType="STATEMENT">
+    <select id="count" parameterType="java.lang.String" resultType="java.lang.Long">
         select count(*) from ${tableName}
     </select>
-    <select id="select" parameterType="java.lang.String" resultMap="BaseResultMap"  statementType="STATEMENT">
+    <select id="select" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from ${tableName}
